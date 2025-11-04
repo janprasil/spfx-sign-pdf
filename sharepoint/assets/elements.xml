@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+    <CustomAction
+        Title="SignPdfCommandSet"
+        RegistrationId="101"
+        RegistrationType="List"
+        Location="ClientSideExtension.ListViewCommandSet.CommandBar"
+        ClientSideComponentId="4cd044b5-8658-4efa-a9fc-0f78ca2e8a2d"
+    ></CustomAction>
+    <CustomAction
+        Title="SignPdfCommandSet"
+        RegistrationId="100"
+        RegistrationType="List"
+        Location="ClientSideExtension.ListViewCommandSet.CommandBar"
+        ClientSideComponentId="4cd044b5-8658-4efa-a9fc-0f78ca2e8a2d"
+    ></CustomAction>
+</Elements>

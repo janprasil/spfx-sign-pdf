@@ -1,0 +1,17 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "sign-pdf-command-set": {
+      "components": [
+        {
+          "entrypoint": "./lib/extensions/signPdf/SignPdfCommandSet.js",
+          "manifest": "./src/extensions/signPdf/SignPdfCommandSet.manifest.json"
+        }
+      ]
+    }
+  },
+  "localizedResources": {
+    "SignPdfStrings": "./lib/extensions/signPdf/loc/{locale}.js"
+  }
+}

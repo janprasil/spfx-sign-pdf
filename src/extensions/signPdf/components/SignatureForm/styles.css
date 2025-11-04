@@ -1,0 +1,23 @@
+.files-wrapper {
+  max-height: 300px;
+  overflow-y: auto;
+  margin-top: 10px;
+}
+
+.signature-form-modal-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  border-bottom: 1px solid black;
+  padding-bottom: 20px;
+  position: sticky;
+  top: 0;
+  background: white;
+  z-index: 9999999;
+}
+
+.signature-form-modal-buttons-wrapper {
+  display: flex;
+  gap: 5px;
+}

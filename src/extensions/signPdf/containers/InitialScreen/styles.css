@@ -1,0 +1,15 @@
+.initial-screen-file-list {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.initial-screen-file-list th,
+.initial-screen-file-list td {
+  border: 1px solid #868686;
+  padding: 8px;
+}
+
+.initial-screen-file-list th {
+  background-color: #f2f2f2;
+  text-align: left;
+}

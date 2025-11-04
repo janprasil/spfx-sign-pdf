@@ -1,0 +1,56 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "sharepoint-sign-pdf",
+    "id": "efafd524-6161-43e4-a042-a7c2d086bbef",
+    "version": "1.0.0.6",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.20.0"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "sharepoint-sign-pdf description"
+      },
+      "longDescription": {
+        "default": "sharepoint-sign-pdf description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "Application Extension - Deployment of custom action",
+        "description": "Deploys a custom action with ClientSideComponentId association",
+        "id": "edd7cdfa-85ad-4e7e-a851-719646190044",
+        "version": "1.0.0.6",
+        "assets": {
+          "elementManifests": [
+            "elements.xml",
+            "ClientSideInstance.xml"
+          ]
+        }
+      }
+    ],
+    "webApiPermissionRequests": [
+      {
+        "resource": "PdfSign",
+        "scope": "api.read"
+      },
+      {
+        "resource": "PdfSign",
+        "scope": "api.write"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/sharepoint-sign-pdf.sppkg"
+  }
+}

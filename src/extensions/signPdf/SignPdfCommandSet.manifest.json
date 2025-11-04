@@ -1,0 +1,20 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx/command-set-extension-manifest.schema.json",
+  "id": "4cd044b5-8658-4efa-a9fc-0f78ca2e8a2d",
+  "alias": "SignPdfCommandSet",
+  "componentType": "Extension",
+  "extensionType": "ListViewCommandSet",
+  "version": "*",
+  "manifestVersion": 2,
+  "requiresCustomScript": false,
+  "items": {
+    "COMMAND_SIGN_DOCUMENTS": {
+      "title": {
+        "default": "Sign Documents",
+        "cs-CZ": "Podepsat dokumenty"
+      },
+      "iconImageUrl": "data:image/jpeg;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAA7EAAAOxAGVKw4bAAACpUlEQVRYhbXXW4hNURgH8J9pkiRJ0iSkSZIU4UlEitzJNfJCHsSLR0kpJcmzPMmDJA8oRamRBx5EI7nlPu7JA0OMJuPy8O3tzJzZ55x99jH/Wu0za9b3rf/6rmsRGIKDeIc/dYzPmKMBDEITLmIxbuA+fueQ3YAR6MIqtBUlsUac5nCdco/xFG/wA0uLEjiaEBhegMBVTEAHusVh6kIThqIHX+sVTvASc5PvGWyul0BRdGJ08vst5uEJTmJbPYpO4GcBAoeF6xb3mhuFdvzCzoEmMFqkbbc49W7swB4RlH+waCAJwHicTUhk1YnttRQ0F9w4xWusFYE8AYOT+Sk4lUdBowRSdOFhTr0r8UIUvIayoAi24DyuYTbVma7D5JyK20QZT/Et+fauLc24g49owWUsoXIQPpe/KZ3MkJ+oZOHVuIcxyaHSpre3GoFhGJtzDM6QT7FIKS2fi8xpxZGUYCNpWAtz8F1fa71KSGNgg3CWaPNDy+bv4kP6R7UgnCFyuxYe6ZuChJ8v699h27BeNL9/qOSCN/IFYHuG7D7RD3qvuybiqg+qWWChCJhaeJYx14mtOJ7scRsrlNIzF4FHyagXzcLE13FBuGFTQipz8f/AMBF0D8UFdxymCivUvOhUioGRIpjKx5iydVvwRfj5dBH2lQh0yA66bnEbhuki2DrEfaC1wh5N4v4wovwf1VywC5My5j8p+XNtonwjbpZtOAvLsECkdFoPLolrfE8tApeSUQ1fku+KRGGLyJ41Shn0HudwC9OEy0bpVYwaKcUj8UB/Nz3FIWGF8mrbpzg1mgWfMBPLRdXsFK64W0WmX1YUfZhUwyQc078PZKLo06wShuCKcGtLrcXlj9PUfHkep1loxnyRjvtxIK9g0ed5+fglgjL3y+gv85Tc4Wjg4VwAAAAASUVORK5CYII=",
+      "type": "command"
+    }
+  }
+}

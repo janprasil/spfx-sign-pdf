@@ -1,0 +1,22 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "plusBeta": false,
+    "isCreatingSolution": true,
+    "nodeVersion": "18.20.5",
+    "sdksVersions": {
+      "@microsoft/microsoft-graph-client": "3.0.2",
+      "@microsoft/teams-js": "2.24.0"
+    },
+    "version": "1.20.0",
+    "libraryName": "sharepoint-sign-pdf",
+    "libraryId": "efafd524-6151-43e4-a042-a7c2d086bbef",
+    "environment": "spo",
+    "packageManager": "npm",
+    "solutionName": "sharepoint-sign-pdf",
+    "solutionShortDescription": "sharepoint-sign-pdf description",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "componentType": "extension",
+    "extensionType": "ListViewCommandSet"
+  }
+}
