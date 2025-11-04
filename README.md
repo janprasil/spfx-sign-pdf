@@ -1,7 +1,7 @@
 # Sharepoint Sign PDF
 
 Sharepoint Sign PDF is a SharePoint Framework (SPFx) extension that enables users to digitally sign PDF documents directly from a SharePoint document library.
-After selecting one or more PDF files, users can trigger the “Sign with Fortify App” command to securely send the files to the Fortify App for signing.
+After selecting one or more PDF files, users can trigger the “Sign Documents” command to securely send the files to the Fortify App for signing.
 
 ### 🚀 Features
 
