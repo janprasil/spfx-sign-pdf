@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { createRef, useMemo } from "react";
 import ResizableDraggableBox from "../components/DraggableBox/DraggableBox";
 import { Position, Rect, Size } from "../types/dimensions";
 
@@ -45,7 +45,7 @@ export const useSignRect = ({
   value?: Rect;
   onChange: (rect: Rect | undefined) => void;
 }) => {
-  const parentRef = React.createRef<HTMLDivElement>();
+  const parentRef = createRef<HTMLDivElement>();
   const handleFieldChange = (size: Size, position: Position) => {
     console.log(renderedDimension, pageDimension, currentPage);
     if (pageDimension && renderedDimension && currentPage) {
@@ -61,7 +61,7 @@ export const useSignRect = ({
     }
   };
 
-  const signatureFieldBox = React.useMemo(() => {
+  const signatureFieldBox = useMemo(() => {
     return (
       <div className="sign-rect-wrapper" ref={parentRef}>
         <ResizableDraggableBox

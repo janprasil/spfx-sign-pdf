@@ -1,6 +1,5 @@
+import React, { Fragment, forwardRef, useEffect, useMemo } from "react";
 import get from "lodash/get";
-import * as React from "react";
-import { useMemo } from "react";
 import {
   Controller,
   useFormContext,
@@ -48,7 +47,7 @@ function createField<
       T
     >
   >;
-  return React.forwardRef(function formField(
+  return forwardRef(function formField(
     props: OuterFieldDefinition<
       Omit<Partial<CustomProps>, "defaultValue" | "onChange" | "onBlur">,
       T
@@ -73,12 +72,12 @@ function createField<
       [props.label, props.placeholder]
     );
 
-    const error = React.useMemo(
+    const error = useMemo(
       () => get(formState.errors, props.name, null),
       [props.name, formState]
     );
 
-    const rules = React.useMemo(() => {
+    const rules = useMemo(() => {
       const validate =
         props.validate &&
         validateWrapper(props.validate, props.name, {
@@ -101,7 +100,7 @@ function createField<
       validate: rules.validate,
     });
 
-    React.useEffect(
+    useEffect(
       () => () =>
         unregister(props.name, {
           keepValue: true,
@@ -133,7 +132,7 @@ function createField<
                 color={error?.message ? "failure" : undefined}
                 helperText={
                   error?.message ? (
-                    <React.Fragment>{error.message}</React.Fragment>
+                    <Fragment>{error.message}</Fragment>
                   ) : null
                 }
               />

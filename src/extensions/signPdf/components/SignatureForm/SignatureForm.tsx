@@ -8,7 +8,7 @@ import {
   SelectionMode,
   Stack,
 } from "office-ui-fabric-react";
-import * as React from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useScreenSetup } from "../../context/screenSetup/screenSetup";
 import { CheckboxField, FileField, useForm } from "../forms";
 import { isValidSignatureField } from "../../utils/validations";
@@ -28,7 +28,7 @@ export type SignatureFormData = {
 const SignatureForm = (): React.ReactElement => {
   const { files, closeModal } = useScreenSetup();
   const { signDocuments } = useSignInit();
-  const [showModal, setShowModal] = React.useState(false);
+  const [showModal, setShowModal] = useState(false);
   const { FormProvider, superFields, values, form, formInvalid, handleSubmit } =
     useForm({
       name: "form",
@@ -58,11 +58,11 @@ const SignatureForm = (): React.ReactElement => {
       },
     });
 
-  React.useEffect(() => {
+  useEffect(() => {
     form.resetField("data");
   }, [values.useForAll]);
 
-  const filesWithValidity = React.useMemo(() => {
+  const filesWithValidity = useMemo(() => {
     return (values.useForAll ? [files[0]] : files).map((f, key) => {
       const sign = values?.data?.[key];
       const isValidSign = isValidSignatureField(sign);

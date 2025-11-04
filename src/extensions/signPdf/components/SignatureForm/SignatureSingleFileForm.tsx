@@ -1,5 +1,5 @@
 import "@pnp/sp/webs";
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import strings from "SignPdfStrings";
 import { useWebClient } from "../../context/webClient/webClient";
 import { FileDefinition } from "../../types/files";
@@ -26,9 +26,9 @@ const SignatureSingleFileForm = ({
   onLoad,
 }: Props): React.ReactElement => {
   const { httpClient } = useWebClient();
-  const [pdfData, setPdfData] = React.useState<ArrayBuffer>();
+  const [pdfData, setPdfData] = useState<ArrayBuffer>();
 
-  React.useEffect(() => {
+  useEffect(() => {
     httpClient
       .getFileFromSharepoint(file.url)
       .then((file) => {

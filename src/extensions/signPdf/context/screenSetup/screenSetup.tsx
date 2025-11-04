@@ -2,6 +2,7 @@ import React, {
   createContext,
   PropsWithChildren,
   useCallback,
+  useContext,
   useState,
 } from "react";
 import { FileDefinition } from "../../types/files";
@@ -73,7 +74,7 @@ export const ScreenSetupProvider: React.FC<Props> = ({
 };
 
 export const useScreenSetup = () => {
-  const ctx = React.useContext(ScreenSetupContext);
+  const ctx = useContext(ScreenSetupContext);
   if (!ctx)
     throw new Error("useScreenSetup must be used within <ScreenSetupProvider>");
   return ctx as ScreenSetupContext;

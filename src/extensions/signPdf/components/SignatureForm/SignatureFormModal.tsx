@@ -1,6 +1,6 @@
 import "@pnp/sp/webs";
 import { Modal, PrimaryButton, Text } from "office-ui-fabric-react";
-import * as React from "react";
+import React, { useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { z } from "zod";
 import { ArrayWrapperChildrenArgs, FieldsType } from "../forms/useForm";
@@ -65,8 +65,8 @@ export const SignatureFormModal = ({
   files,
 }: Props) => {
   const { watch } = useFormContext<z.TypeOf<typeof SignatureFormSchema>>();
-  const [currentDocument, setCurrentDocument] = React.useState(0);
-  const [modalWidth, setModalWidth] = React.useState(500);
+  const [currentDocument, setCurrentDocument] = useState(0);
+  const [modalWidth, setModalWidth] = useState(500);
   const values = watch();
 
   return (

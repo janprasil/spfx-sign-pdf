@@ -1,18 +1,17 @@
-import { get, noop } from "lodash";
-import {
+import React, {
+  PropsWithChildren,
   useCallback,
   useMemo,
   useRef,
   useState,
-  type PropsWithChildren,
 } from "react";
+import { get, noop } from "lodash";
 import {
   useFieldArray,
   useForm as useReactHookForm,
   type Path,
   type UseFormProps,
 } from "react-hook-form";
-import * as React from "react";
 import { DevTool } from "@hookform/devtools";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type z } from "zod";
@@ -135,7 +134,7 @@ const useForm = <
     return newField;
   };
 
-  const handleSubmit = React.useCallback(
+  const handleSubmit = useCallback(
     async <Res extends object>(
       onSubmit: (arg: {
         form: TForm;
@@ -182,7 +181,7 @@ const useForm = <
     [form]
   );
 
-  const FormProvider = React.useCallback(
+  const FormProvider = useCallback(
     ({ children }: PropsWithChildren<unknown>) => (
       <CustomFormProvider {...form} setHandlers={setHandlers}>
         {children}

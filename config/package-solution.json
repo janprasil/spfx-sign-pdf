@@ -47,6 +47,10 @@
       {
         "resource": "PdfSign",
         "scope": "api.write"
+      },
+      {
+        "resource": "Microsoft Graph",
+        "scope": "Sites.Read.All"
       }
     ]
   },

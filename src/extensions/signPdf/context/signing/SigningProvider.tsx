@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { ReactNode, createContext, useContext, useMemo } from "react";
 import useSignature from "../../hooks/useSignature"; // existing hook from your app
 
 export type SigningContextValue = {
@@ -7,12 +7,12 @@ export type SigningContextValue = {
   publicKey?: string;
 };
 
-const SigningContext = React.createContext<SigningContextValue | undefined>(
+const SigningContext = createContext<SigningContextValue | undefined>(
   undefined
 );
 
 export type SigningProviderProps = {
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
 export const SigningProvider: React.FC<SigningProviderProps> = ({
@@ -20,7 +20,7 @@ export const SigningProvider: React.FC<SigningProviderProps> = ({
 }) => {
   const { getPublicKey, signHash, publicKey } = useSignature();
 
-  const value: SigningContextValue = React.useMemo(
+  const value: SigningContextValue = useMemo(
     () => ({
       getPublicKey,
       signHash,
@@ -35,7 +35,7 @@ export const SigningProvider: React.FC<SigningProviderProps> = ({
 };
 
 export function useSigning() {
-  const ctx = React.useContext(SigningContext);
+  const ctx = useContext(SigningContext);
   if (!ctx) throw new Error("useSigning must be used within <SigningProvider>");
   return ctx;
 }
