@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Elements xmlns="http://schemas.microsoft.com/sharepoint/">
     <ClientSideComponentInstance
-        Title="SignPdfCommandSet"
+        Title="SignPdfExtension"
         Location="ClientSideExtension.ListViewCommandSet.CommandBar"
         ListTemplateId="101"
         ComponentId="4cd044b5-8658-4efa-a9fc-0f78ca2e8a2d" />
     <ClientSideComponentInstance
-        Title="SignPdfCommandSet"
+        Title="SignPdfExtension"
         Location="ClientSideExtension.ListViewCommandSet.CommandBar"
         ListTemplateId="100"
         ComponentId="4cd044b5-8658-4efa-a9fc-0f78ca2e8a2d" />

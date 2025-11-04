@@ -5,8 +5,8 @@
     "sign-pdf-command-set": {
       "components": [
         {
-          "entrypoint": "./lib/extensions/signPdf/SignPdfCommandSet.js",
-          "manifest": "./src/extensions/signPdf/SignPdfCommandSet.manifest.json"
+          "entrypoint": "./lib/extensions/signPdf/SignPdfExtension.js",
+          "manifest": "./src/extensions/signPdf/SignPdfExtension.manifest.json"
         }
       ]
     }

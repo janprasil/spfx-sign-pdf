@@ -14,11 +14,11 @@ import { CustomAadHttpClient } from "./utils/customAadClient";
 import { createClient } from "./utils/httpClient";
 import { createRenderer } from "./utils/renderer";
 
-export interface ISignPdfCommandSetProperties {
+export interface ISignPdfExtensionProperties {
   sampleTextOne: string;
 }
 
-export default class SignPdfCommandSet extends BaseListViewCommandSet<ISignPdfCommandSetProperties> {
+export default class SignPdfExtension extends BaseListViewCommandSet<ISignPdfExtensionProperties> {
   private httpClient: ReturnType<typeof createClient> | null = null;
   private spClient: SPFI | null = null;
   private aadClient: CustomAadHttpClient | null = null;
