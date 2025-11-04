@@ -1,0 +1,41 @@
+.pdf-preview-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.pdf-page-container {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.signature-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  cursor: crosshair;
+}
+
+.signature-rectangle {
+  margin-top: 10px;
+  background-color: rgba(240, 240, 240, 0.9);
+  padding: 10px;
+  border: 1px solid #ccc;
+  width: 600px; /* Match the PDF page width or adjust accordingly */
+}
+
+.sign-rect-wrapper {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10000;
+}
+
+.pdf-signature-preview-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
