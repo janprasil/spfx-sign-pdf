@@ -63,13 +63,6 @@ build.configureWebpack.mergeConfig({
           },
         ],
       })
-      // new webpack.DefinePlugin({
-      //   "process.env": JSON.stringify(process.env),
-      //   // "process.env.SIGN_API_URL": JSON.stringify(process.env.SIGN_API_URL),
-      //   // "process.env.AAD_CLIENT_KEY": JSON.stringify(
-      //   //   process.env.AAD_CLIENT_KEY
-      //   // ),
-      // })
     );
 
     // Remove react and react-dom from externals to allow embedding react 18 inside the bundle
@@ -86,5 +79,26 @@ build.configureWebpack.mergeConfig({
     return generatedConfiguration;
   },
 });
+
+const postcss = require("gulp-postcss");
+const tailwind = require("tailwindcss");
+
+const tailwindcss = build.subTask(
+  "tailwindcss",
+  function (gulp, buildOptions, done) {
+    gulp
+      .src("assets/tailwind.css")
+      .pipe(postcss([tailwind("./tailwind.config.js")]))
+      .pipe(gulp.dest("assets/dist"));
+    done();
+  }
+);
+build.rig.addPreBuildTask(tailwindcss);
+/* end of tailwind */
+
+/* fast-serve */
+const { addFastServe } = require("spfx-fast-serve-helpers");
+addFastServe(build);
+/* end of fast-serve */
 
 build.initialize(require("gulp"));

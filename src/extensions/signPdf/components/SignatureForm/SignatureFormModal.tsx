@@ -1,13 +1,10 @@
 import "@pnp/sp/webs";
-import { Modal, PrimaryButton, Text } from "office-ui-fabric-react";
+import { Icon, Text } from "office-ui-fabric-react";
 import React, { useState } from "react";
-import { useFormContext } from "react-hook-form";
-import { z } from "zod";
-import { ArrayWrapperChildrenArgs, FieldsType } from "../forms/useForm";
-import { FileDefinition } from "../../types/files";
 import { SignatureFormSchema } from "../../schemas/SignatureForm.schema";
+import { FileDefinition } from "../../types/files";
+import { ArrayWrapperChildrenArgs, FieldsType } from "../forms/useForm";
 import SignatureSingleFileForm from "./SignatureSingleFileForm";
-import strings from "SignPdfStrings";
 
 export type SignatureItem = (typeof SignatureFormSchema._type.data)[0];
 export type ArrayWrapperArgs = ArrayWrapperChildrenArgs<
@@ -15,106 +12,90 @@ export type ArrayWrapperArgs = ArrayWrapperChildrenArgs<
 >;
 
 type Props = {
-  fields: ArrayWrapperArgs[1];
-  showModal: boolean;
-  toggleModal: (show: boolean) => void;
-  files: FileDefinition[];
+  field?: ArrayWrapperArgs[1][0];
+  isValid?: boolean;
+  file?: FileDefinition;
+  name?: string;
+  isLast?: boolean;
 };
 
-type SignatureModalHeaderButtonType = {
-  disabled: boolean;
-  onClick: () => void;
-};
-
-type SignatureModalHeaderProps = {
-  buttons: {
-    next: SignatureModalHeaderButtonType;
-    previous: SignatureModalHeaderButtonType;
-  };
-  title: string;
-  onClose: () => void;
-};
-
-export const SignatureModalHeader = ({
-  buttons: { next, previous },
-  title,
-  onClose,
-}: SignatureModalHeaderProps) => {
+export const SignatureFormRow = ({
+  values,
+  className = "",
+}: {
+  values: Array<React.ReactNode>;
+  className?: string;
+}) => {
   return (
-    <div className="signature-form-modal-wrapper">
-      <PrimaryButton disabled={previous.disabled} onClick={previous.onClick}>
-        {strings.signatureModalPrevious}
-      </PrimaryButton>
-      <Text>{title}</Text>
-      <div className="signature-form-modal-buttons-wrapper">
-        <PrimaryButton disabled={next.disabled} onClick={next.onClick}>
-          {strings.signatureModalNext}
-        </PrimaryButton>
-        <PrimaryButton onClick={onClose}>
-          {strings.signatureModalClose}
-        </PrimaryButton>
+    <div
+      className={`tw-grid tw-grid-cols-[16px_1fr_auto] tw-items-center tw-gap-2 tw-px-4 tw-py-2 ${className}`}
+    >
+      <div className="tw-flex tw-items-center tw-justify-center tw-h-10 tw-truncate tw-w-4">
+        {values[0]}
+      </div>
+      <div className="tw-flex tw-items-center tw-h-10 tw-truncate">
+        {values[1]}
+      </div>
+      <div className="tw-flex tw-items-center tw-justify-end tw-h-10">
+        {values[2]}
       </div>
     </div>
   );
 };
 
 export const SignatureFormModal = ({
-  fields,
-  showModal,
-  toggleModal,
-  files,
+  field,
+  file,
+  isValid,
+  name,
+  isLast,
 }: Props) => {
-  const { watch } = useFormContext<z.TypeOf<typeof SignatureFormSchema>>();
-  const [currentDocument, setCurrentDocument] = useState(0);
-  const [modalWidth, setModalWidth] = useState(500);
-  const values = watch();
+  const [open, setOpen] = useState(false);
+
+  if (!field || !file) {
+    return null;
+  }
 
   return (
-    <Modal
-      isOpen={showModal}
-      onDismiss={() => toggleModal(false)}
-      styles={{
-        main: {
-          minWidth: `${modalWidth}px`,
-          padding: 20,
-          overflow: "hidden",
-        },
-      }}
-    >
+    <>
       <div
-        style={{
-          display: "flex",
-          flexFlow: "column",
-        }}
+        className={`tw-border-b tw-border-gray-200 tw-bg-white ${
+          isLast ? "tw-border-b-0" : ""
+        }`}
       >
-        <SignatureModalHeader
-          buttons={{
-            next: {
-              disabled: currentDocument === files.length - 1,
-              onClick: () =>
-                setCurrentDocument((document) =>
-                  Math.min(document + 1, files.length - 1)
-                ),
-            },
-            previous: {
-              disabled: currentDocument === 0,
-              onClick: () =>
-                setCurrentDocument((document) => Math.max(document - 1, 0)),
-            },
-          }}
-          onClose={() => toggleModal(false)}
-          title={`${strings.signatureModalFileTitlePrefix} ${files[currentDocument].name}`}
+        <SignatureFormRow
+          className="tw-py-2"
+          values={[
+            isValid ? (
+              <Icon
+                iconName="CheckMark"
+                styles={{ root: { color: "green" } }}
+              />
+            ) : (
+              <Icon iconName="Cancel" styles={{ root: { color: "red" } }} />
+            ),
+            <Text className="tw-font-medium">{name || file.name}</Text>,
+            <button
+              type="button"
+              onClick={() => setOpen((o) => !o)}
+              className="tw-cursor-pointer hover:tw-opacity-70 tw-underline"
+            >
+              {!open && (isValid ? <>Změnit podpis</> : <>Nastavit podpis</>)}
+              {open && <>Zavřít</>}
+            </button>,
+          ]}
         />
 
-        <div>
-          <SignatureSingleFileForm
-            onLoad={(p) => setModalWidth(Math.min(p.width, 800))}
-            file={files[currentDocument]}
-            field={fields[values.useForAll ? 0 : currentDocument]}
-            key={`document_${currentDocument}`}
-          />
-        </div>
+        {open && (
+          <div className="tw-px-4 tw-pb-4">
+            <SignatureSingleFileForm
+              onLoad={(p) => console.log(p)}
+              file={file}
+              field={field}
+            />
+          </div>
+        )}
       </div>
-    </Modal>
+    </>
   );
 };

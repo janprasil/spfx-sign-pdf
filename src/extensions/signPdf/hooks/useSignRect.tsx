@@ -7,7 +7,6 @@ const calculateRatio = (
   pageDimension: Size | undefined,
   dimension: "width" | "height"
 ) => {
-  console.log(renderedDimension, pageDimension);
   return renderedDimension && pageDimension
     ? pageDimension[dimension] / renderedDimension[dimension]
     : 1;
@@ -47,7 +46,6 @@ export const useSignRect = ({
 }) => {
   const parentRef = createRef<HTMLDivElement>();
   const handleFieldChange = (size: Size, position: Position) => {
-    console.log(renderedDimension, pageDimension, currentPage);
     if (pageDimension && renderedDimension && currentPage) {
       const rect = createRect(
         position,

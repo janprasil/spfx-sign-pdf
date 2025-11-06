@@ -19,7 +19,7 @@ const ResizableDraggableBox: React.FC<ResizableDraggableBoxProps> = React.memo(
   ({
     parentRef,
     onChange,
-    defaultSize = { x: 100, y: 100, width: 200, height: 150 },
+    defaultSize = { x: 100, y: 100, width: 80, height: 40 },
   }) => {
     const { style, onDragMouseDown, onResizeMouseDown } = useDragResize({
       parentRef,

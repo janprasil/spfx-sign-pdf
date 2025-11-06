@@ -13,10 +13,17 @@ type Props = PropsWithChildren<{
   renderer: ReturnType<typeof createRenderer>;
 }>;
 
-type Screen = "init" | "certificate" | "detail" | "progress" | "victory";
+export enum ScreenEnum {
+  Init = 0,
+  Certificate = 1,
+  Detail = 2,
+  Progress = 3,
+  Victory = 4,
+}
+export type Screen = keyof typeof ScreenEnum;
 
 type ScreenSetupContext = {
-  screen: Screen;
+  screen: ScreenEnum;
   setScreen: (screen: ScreenSetupContext["screen"]) => void;
   uploadedFiles: number;
   setUploadedFiles: (count: number) => void;
@@ -36,7 +43,7 @@ export const ScreenSetupProvider: React.FC<Props> = ({
   renderer,
   files,
 }: Props) => {
-  const [screen, setScreen] = useState<Screen>("init");
+  const [screen, setScreen] = useState<ScreenEnum>(ScreenEnum.Init);
   const [uploadedFiles, setUploadedFiles] = useState(0);
   const [lastError, setLastError] = useState<string>();
 

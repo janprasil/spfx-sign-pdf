@@ -68,6 +68,7 @@ function createField<
     const messages = useMemo(
       () => ({
         label: props.label,
+        placeholder: props.placeholder,
       }),
       [props.label, props.placeholder]
     );
@@ -131,9 +132,7 @@ function createField<
                 field={newField}
                 color={error?.message ? "failure" : undefined}
                 helperText={
-                  error?.message ? (
-                    <Fragment>{error.message}</Fragment>
-                  ) : null
+                  error?.message ? <Fragment>{error.message}</Fragment> : null
                 }
               />
             </div>

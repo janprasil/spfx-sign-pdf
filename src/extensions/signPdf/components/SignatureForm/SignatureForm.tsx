@@ -1,23 +1,19 @@
 import "@pnp/sp/webs";
-import {
-  DefaultButton,
-  DetailsList,
-  DetailsListLayoutMode,
-  Icon,
-  PrimaryButton,
-  SelectionMode,
-  Stack,
-} from "office-ui-fabric-react";
-import React, { useEffect, useMemo, useState } from "react";
+import { List } from "office-ui-fabric-react";
+import React, { useCallback, useEffect, useMemo } from "react";
+import strings from "SignPdfStrings";
 import { useScreenSetup } from "../../context/screenSetup/screenSetup";
-import { CheckboxField, FileField, useForm } from "../forms";
-import { isValidSignatureField } from "../../utils/validations";
 import { SignatureFormSchema } from "../../schemas/SignatureForm.schema";
-import { SignatureFormModal } from "./SignatureFormModal";
+import { isValidSignatureField } from "../../utils/validations";
+import Box from "../Box/Box";
+import ContentWrapper from "../ContentWrapper/ContentWrapper";
+import Footer from "../Footer/Footer";
+import { CheckboxField, FileField, useForm } from "../forms";
+import { SignatureFormModal, SignatureFormRow } from "./SignatureFormModal";
 import { SignatureFormInputType } from "./SignatureSingleFileForm";
 import "./styles.css";
 import useSignInit from "./useSignInit";
-import strings from "SignPdfStrings";
+import Grid from "../Grid/Grid";
 
 export type SignatureFormData = {
   useForAll?: boolean;
@@ -28,12 +24,14 @@ export type SignatureFormData = {
 const SignatureForm = (): React.ReactElement => {
   const { files, closeModal } = useScreenSetup();
   const { signDocuments } = useSignInit();
-  const [showModal, setShowModal] = useState(false);
   const { FormProvider, superFields, values, form, formInvalid, handleSubmit } =
     useForm({
       name: "form",
       reValidateMode: "onChange",
       schema: SignatureFormSchema,
+      defaultValues: {
+        data: files.map(() => ({})),
+      },
       fieldList: {
         useForAll: {
           label: strings.signatureFormUseForAllLabel,
@@ -45,10 +43,10 @@ const SignatureForm = (): React.ReactElement => {
         data: [
           {
             reason: {
-              label: strings.signatureFormReasonLabel,
+              placeholder: strings.signatureFormReasonLabel,
             },
             location: {
-              label: strings.signatureFormLocationLabel,
+              placeholder: strings.signatureFormLocationLabel,
             },
             rect: {
               label: strings.signatureFormRectLabel,
@@ -60,6 +58,14 @@ const SignatureForm = (): React.ReactElement => {
 
   useEffect(() => {
     form.resetField("data");
+    if (values.useForAll) {
+      form.setValue("data", [{} as any]);
+    } else {
+      form.setValue(
+        "data",
+        files.map(() => ({} as any))
+      );
+    }
   }, [values.useForAll]);
 
   const filesWithValidity = useMemo(() => {
@@ -69,99 +75,89 @@ const SignatureForm = (): React.ReactElement => {
       return {
         ...f,
         name: values.useForAll ? strings.signatureFormAllDocuments : f.name,
-        valid: isValidSign,
+        valid: Boolean(isValidSign),
       };
     });
   }, [values, files]);
 
+  const getFieldsForRendering = useCallback(
+    (fields: any) => {
+      if (values.useForAll) {
+        const isValid = filesWithValidity[0]?.valid;
+        return [
+          {
+            ...fields[0],
+            name: filesWithValidity[0]?.name,
+            isValid,
+          },
+        ];
+      }
+      return fields.map((field: any, index: number) => {
+        const isValid = filesWithValidity[index]?.valid;
+        return {
+          ...field,
+          isValid,
+        };
+      });
+    },
+    [values.useForAll, filesWithValidity]
+  );
+
   return (
     <FormProvider>
-      <h3>{strings.signatureFormTitle}</h3>
-      <Stack horizontal tokens={{ childrenGap: 10 }}>
+      <ContentWrapper>
+        <Grid cols={2} gap={4}>
+          <Box background="gray">
+            <CheckboxField {...superFields.useForAll} />
+          </Box>
+          <Box background="gray">
+            <FileField {...superFields.signImageContent} />
+          </Box>
+        </Grid>
+
         <superFields.data.ArrayWrapper>
           {(hook, fields) => {
             return (
-              <>
-                <PrimaryButton
-                  onClick={() => {
-                    setShowModal(true);
-                    if (hook.fields.length === 0) {
-                      if (superFields.useForAll.getValue()) hook.append({});
-                      else
-                        files.forEach(() => {
-                          hook.append({});
-                        });
-                    }
-                  }}
-                >
-                  {strings.signatureFormSelectPosition}
-                </PrimaryButton>
-                <SignatureFormModal
-                  fields={fields}
-                  showModal={showModal}
-                  toggleModal={setShowModal}
-                  files={files}
+              <Box>
+                <SignatureFormRow
+                  values={[<div />, <>Název souboru</>, <>Nastavení podpisu</>]}
                 />
-              </>
+                <List
+                  items={getFieldsForRendering(fields)}
+                  onRenderCell={(field, index) => {
+                    return (
+                      <SignatureFormModal
+                        field={field as any}
+                        isValid={field?.isValid}
+                        key={"field_" + index}
+                        isLast={index === fields.length - 1}
+                        name={field?.name}
+                        file={
+                          typeof index === "number" ? files[index] : undefined
+                        }
+                      />
+                    );
+                  }}
+                />
+              </Box>
             );
           }}
         </superFields.data.ArrayWrapper>
-
-        <FileField
-          {...superFields.signImageContent}
-          style={{ paddingLeft: 10, borderLeft: "1px solid black" }}
-        />
-      </Stack>
-      <CheckboxField {...superFields.useForAll} />
-
-      <DetailsList
-        items={filesWithValidity}
-        columns={[
-          {
-            key: "fileName",
-            name: strings.selectedFilesLabel,
-            fieldName: "name",
-            minWidth: 300,
-            maxWidth: 300,
-            isResizable: false,
-          },
-          {
-            key: "isValid",
-            name: strings.validFilesLabel,
-            fieldName: "valid",
-            onRender: (item: (typeof filesWithValidity)[0]) =>
-              item.valid ? (
-                <Icon
-                  iconName="CheckMark"
-                  styles={{ root: { color: "green" } }}
-                />
-              ) : (
-                <Icon iconName="Cancel" styles={{ root: { color: "red" } }} />
-              ),
-            minWidth: 300,
-            maxWidth: 300,
-            isResizable: false,
-          },
-        ]}
-        layoutMode={DetailsListLayoutMode.justified}
-        selectionMode={SelectionMode.none}
-      />
-      <Stack
-        horizontal
-        tokens={{ childrenGap: 10 }}
-        styles={{ root: { marginTop: 20 } }}
-      >
-        <PrimaryButton
-          text={strings.continueButton}
-          disabled={formInvalid || filesWithValidity.some((f) => !f.valid)}
-          onClick={() =>
+      </ContentWrapper>
+      <Footer
+        next={{
+          text: strings.continueButton,
+          disabled: formInvalid || filesWithValidity.some((f) => !f.valid),
+          onClick: () =>
             handleSubmit((data) => {
               signDocuments(data.form);
-            })
-          }
-        />
-        <DefaultButton text={strings.cancelButton} onClick={closeModal} />
-      </Stack>
+            }),
+        }}
+        back={{
+          text: strings.cancelButton,
+          onClick: closeModal,
+        }}
+      />
     </FormProvider>
   );
 };

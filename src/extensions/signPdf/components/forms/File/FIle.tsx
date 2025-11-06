@@ -38,33 +38,28 @@ const File = ({ field, ...props }: Props) => {
         id="fileInput"
         ref={fileInputRef}
       />
-      <PrimaryButton
-        text={props.label}
-        onClick={() => fileInputRef?.current?.click()}
-      />
-
-      {error && <Label style={{ color: "red" }}>{error}</Label>}
       {field?.value && (
-        <Stack
-          horizontal={true}
-          verticalAlign="center"
-          tokens={{ childrenGap: 20 }}
-          style={{ marginTop: 10 }}
-        >
+        <div className="tw-flex tw-flex-col tw-items-center tw-mb-2">
           <Label>{strings.fileFieldPreviewLabel}</Label>
           <Image
             src={field?.value}
             alt={strings.fileFieldPreviewAlt}
             styles={{
               image: {
-                maxWidth: 100,
-                maxHeight: 100,
+                maxWidth: 150,
+                maxHeight: 150,
                 objectFit: "cover",
               },
             }}
           />
-        </Stack>
+        </div>
       )}
+      <PrimaryButton
+        text={props.label}
+        onClick={() => fileInputRef?.current?.click()}
+      />
+
+      {error && <Label style={{ color: "red" }}>{error}</Label>}
     </Stack>
   );
 };

@@ -121,7 +121,7 @@ const useForm = <
             );
           },
         };
-      } else if (field.label) {
+      } else if (field.label || field.placeholder) {
         newField[key] = {
           ...field,
           name,
