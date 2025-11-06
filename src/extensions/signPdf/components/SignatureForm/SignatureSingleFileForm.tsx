@@ -1,11 +1,12 @@
 import "@pnp/sp/webs";
-import * as React from "react";
-import strings from "SignPdfStrings";
+import React, { useEffect, useState } from "react";
 import { useWebClient } from "../../context/webClient/webClient";
-import { FileDefinition } from "../../types/files";
 import { Rect, Size } from "../../types/dimensions";
+import { FileDefinition } from "../../types/files";
 import { InputField, PdfPreviewField } from "../forms";
+import Grid from "../Grid/Grid";
 import { ArrayWrapperArgs } from "./SignatureFormModal";
+import Box from "../Box/Box";
 
 export type SignatureFormInputType = {
   reason?: string;
@@ -26,9 +27,9 @@ const SignatureSingleFileForm = ({
   onLoad,
 }: Props): React.ReactElement => {
   const { httpClient } = useWebClient();
-  const [pdfData, setPdfData] = React.useState<ArrayBuffer>();
+  const [pdfData, setPdfData] = useState<ArrayBuffer>();
 
-  React.useEffect(() => {
+  useEffect(() => {
     httpClient
       .getFileFromSharepoint(file.url)
       .then((file) => {
@@ -40,23 +41,24 @@ const SignatureSingleFileForm = ({
   }, []);
 
   return (
-    <div style={{ display: "flex", flexFlow: "column" }}>
-      <h3>{strings.signatureSingleTitle}</h3>
-      <InputField {...field.reason} />
-      <InputField {...field.location} />
-
-      <p style={{ marginTop: 10, marginBottom: 10 }}>
-        {strings.signaturePlacementHint}
-      </p>
-      {pdfData && (
-        <PdfPreviewField
-          pdfData={pdfData}
-          onLoad={onLoad}
-          defaultValue={field.rect.defaultValue as Partial<Rect> | undefined}
-          {...field.rect}
-        />
-      )}
-    </div>
+    <>
+      <Box>
+        <Grid cols={2} gap={4}>
+          <InputField {...field.reason} />
+          <InputField {...field.location} />
+        </Grid>
+      </Box>
+      <div>
+        {pdfData && (
+          <PdfPreviewField
+            pdfData={pdfData}
+            onLoad={onLoad}
+            defaultValue={field.rect.defaultValue as Partial<Rect> | undefined}
+            {...field.rect}
+          />
+        )}
+      </div>
+    </>
   );
 };
 

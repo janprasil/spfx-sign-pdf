@@ -1,7 +1,10 @@
 import { useCallback } from "react";
 import { SignatureFormData } from "./SignatureForm";
 import { useSigning } from "../../context/signing/SigningProvider";
-import { useScreenSetup } from "../../context/screenSetup/screenSetup";
+import {
+  ScreenEnum,
+  useScreenSetup,
+} from "../../context/screenSetup/screenSetup";
 import { signDocuments } from "../../services/signingService";
 import { useWebClient } from "../../context/webClient/webClient";
 import strings from "SignPdfStrings";
@@ -16,7 +19,7 @@ const useSignInit = () => {
     async (form: SignatureFormData) => {
       if (!aadClient) return;
       resetProgress();
-      setScreen("progress");
+      setScreen(ScreenEnum.Progress);
       try {
         if (!publicKey) throw new Error(strings.publicKeyUnavailable);
         await signDocuments({
@@ -28,11 +31,11 @@ const useSignInit = () => {
           onProgress: (done) => setUploadedFiles(done),
           concurrency: 5,
         });
-        setScreen("victory");
+        setScreen(ScreenEnum.Victory);
       } catch (e: any) {
         console.error(e);
         setLastError(e?.message ?? strings.signingUnknownError);
-        setScreen("detail");
+        setScreen(ScreenEnum.Detail);
       }
     },
     [aadClient, files, getPublicKey, publicKey, resetProgress, signHash]

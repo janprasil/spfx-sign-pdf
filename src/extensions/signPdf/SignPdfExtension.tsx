@@ -1,3 +1,4 @@
+import "../../../assets/dist/tailwind.css";
 import {
   BaseListViewCommandSet,
   RowAccessor,
