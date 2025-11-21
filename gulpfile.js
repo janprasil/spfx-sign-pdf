@@ -36,6 +36,7 @@ build.configureWebpack.mergeConfig({
     const currentEnv = {
       SIGN_API_URL: process.env.SIGN_API_URL,
       AAD_CLIENT_KEY: process.env.AAD_CLIENT_KEY,
+      APP_SERVER_BASE_URL: process.env.APP_SERVER_BASE_URL,
     };
 
     if (pluginDefine) {

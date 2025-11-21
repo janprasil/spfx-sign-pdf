@@ -70,14 +70,37 @@ export default class SignPdfExtension extends BaseListViewCommandSet<ISignPdfExt
 
   private _getSelectedPdfFiles(selectedRows: readonly RowAccessor[]) {
     const serverRelativeUrl = this.context.pageContext.site.serverRelativeUrl;
-    const selectedFiles = selectedRows.map((row) => ({
-      name: row.getValueByName("FileLeafRef"),
-      url: row.getValueByName("FileRef"),
-      id: row.getValueByName("ID"),
-      serverRelativeUrl,
-      spItemUrl: row.getValueByName(".spItemUrl"),
-    }));
-    return selectedFiles;
+    const availableFields = selectedRows[0]?.fields ?? [];
+    const attachmentColumns =
+      availableFields
+        ?.filter(
+          (field) => field.fieldType === "Text" || field.fieldType === "URL"
+        )
+        .map((field) => ({
+          internalName: field.internalName,
+          displayName: field.displayName,
+          fieldType: field.fieldType,
+        })) ?? [];
+
+    const selectedFiles = selectedRows.map((row) => {
+      const columnValues = Object.fromEntries(
+        attachmentColumns.map((col) => [
+          col.internalName,
+          row.getValueByName(col.internalName),
+        ])
+      );
+
+      return {
+        name: row.getValueByName("FileLeafRef"),
+        url: row.getValueByName("FileRef"),
+        id: row.getValueByName("ID"),
+        serverRelativeUrl,
+        spItemUrl: row.getValueByName(".spItemUrl"),
+        columnValues,
+      };
+    });
+
+    return { files: selectedFiles, attachmentColumns };
   }
 
   private async _openSignModal(
@@ -88,14 +111,20 @@ export default class SignPdfExtension extends BaseListViewCommandSet<ISignPdfExt
     }
 
     const renderer = createRenderer();
-    const files = this._getSelectedPdfFiles(selectedRows);
+    const { files, attachmentColumns } =
+      this._getSelectedPdfFiles(selectedRows);
     renderer.render(
       <WebClientProvider
         aadClient={this.aadClient}
         httpClient={this.httpClient}
         spClient={this.spClient as SPFI}
       >
-        <ScreenSetupProvider renderer={renderer} files={files}>
+        <ScreenSetupProvider
+          renderer={renderer}
+          files={files}
+          attachmentColumns={attachmentColumns}
+          userEmail={this.context.pageContext.user?.email}
+        >
           <SigningProvider>
             <SigningModal />
           </SigningProvider>

@@ -1,10 +1,9 @@
 import "@pnp/sp/webs";
 import { Icon, Text } from "office-ui-fabric-react";
-import React, { useState } from "react";
+import React from "react";
 import { SignatureFormSchema } from "../../schemas/SignatureForm.schema";
 import { FileDefinition } from "../../types/files";
 import { ArrayWrapperChildrenArgs, FieldsType } from "../forms/useForm";
-import SignatureSingleFileForm from "./SignatureSingleFileForm";
 
 export type SignatureItem = (typeof SignatureFormSchema._type.data)[0];
 export type ArrayWrapperArgs = ArrayWrapperChildrenArgs<
@@ -17,6 +16,7 @@ type Props = {
   file?: FileDefinition;
   name?: string;
   isLast?: boolean;
+  onOpen?: () => void;
 };
 
 export const SignatureFormRow = ({
@@ -49,9 +49,8 @@ export const SignatureFormModal = ({
   isValid,
   name,
   isLast,
+  onOpen,
 }: Props) => {
-  const [open, setOpen] = useState(false);
-
   if (!field || !file) {
     return null;
   }
@@ -77,24 +76,13 @@ export const SignatureFormModal = ({
             <Text className="tw-font-medium">{name || file.name}</Text>,
             <button
               type="button"
-              onClick={() => setOpen((o) => !o)}
+              onClick={onOpen}
               className="tw-cursor-pointer hover:tw-opacity-70 tw-underline"
             >
-              {!open && (isValid ? <>Změnit podpis</> : <>Nastavit podpis</>)}
-              {open && <>Zavřít</>}
+              {isValid ? <>Change signature</> : <>Set signature</>}
             </button>,
           ]}
         />
-
-        {open && (
-          <div className="tw-px-4 tw-pb-4">
-            <SignatureSingleFileForm
-              onLoad={(p) => console.log(p)}
-              file={file}
-              field={field}
-            />
-          </div>
-        )}
       </div>
     </>
   );

@@ -1,17 +1,20 @@
 import "@pnp/sp/webs";
 import React, { useEffect, useState } from "react";
+import strings from "SignPdfStrings";
 import { useWebClient } from "../../context/webClient/webClient";
 import { Rect, Size } from "../../types/dimensions";
 import { FileDefinition } from "../../types/files";
-import { InputField, PdfPreviewField } from "../forms";
+import { AttachmentField, InputField, PdfPreviewField } from "../forms";
 import Grid from "../Grid/Grid";
 import { ArrayWrapperArgs } from "./SignatureFormModal";
 import Box from "../Box/Box";
+import { UploadedAttachment } from "../../types/attachments";
 
 export type SignatureFormInputType = {
   reason?: string;
   location?: string;
   rect?: Rect;
+  attachmentFile?: UploadedAttachment;
 };
 
 type Props = {
@@ -19,12 +22,18 @@ type Props = {
   file: FileDefinition;
   onLoad: (pageDimension: Size) => void;
   field: ArrayWrapperArgs[1][0];
+  hideAttachment?: boolean;
+  useColumnAttachment?: boolean;
+  columnAttachmentLabel?: string;
 };
 
 const SignatureSingleFileForm = ({
   file,
   field,
   onLoad,
+  hideAttachment,
+  useColumnAttachment,
+  columnAttachmentLabel,
 }: Props): React.ReactElement => {
   const { httpClient } = useWebClient();
   const [pdfData, setPdfData] = useState<ArrayBuffer>();
@@ -44,10 +53,22 @@ const SignatureSingleFileForm = ({
     <>
       <Box>
         <Grid cols={2} gap={4}>
-          <InputField {...field.reason} />
-          <InputField {...field.location} />
+          <InputField {...(field.reason as any)} />
+          <InputField {...(field.location as any)} />
         </Grid>
       </Box>
+      {!hideAttachment && (
+        <Box>
+          <AttachmentField
+            {...(field.attachmentFile as any)}
+            helperText={
+              useColumnAttachment
+                ? strings.attachmentOverrideInfo
+                : strings.attachmentOptionalInfo
+            }
+          />
+        </Box>
+      )}
       <div>
         {pdfData && (
           <PdfPreviewField

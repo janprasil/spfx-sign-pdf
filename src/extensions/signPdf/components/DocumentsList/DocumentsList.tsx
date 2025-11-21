@@ -5,7 +5,7 @@ import { Icon } from "office-ui-fabric-react";
 const DocumentsList = (): React.ReactElement => {
   const { files } = useScreenSetup();
   return (
-    <div className="tw-space-y-2">
+    <div className="tw-space-y-2 tw-overflow-y-scroll tw-max-h-80">
       {files.map((doc, index) => (
         <div
           key={doc.serverRelativeUrl}

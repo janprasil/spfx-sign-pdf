@@ -18,6 +18,18 @@ export class CustomAadHttpClient extends AadHttpClient {
     return (await resp.json()) as T;
   }
 
+  public async get<T>(url: string): Promise<T> {
+    const finalUrl = url.startsWith("http")
+      ? url
+      : (process.env.SIGN_API_URL + url).replace(/(?<!https?:)\/{2,}/g, "/");
+    const resp = await super.get(finalUrl, AadHttpClient.configurations.v1);
+    if (!resp.ok) {
+      const text = await resp.text();
+      throw new Error(`HTTP ${resp.status}: ${text}`);
+    }
+    return (await resp.json()) as T;
+  }
+
   public static from(client: AadHttpClient): CustomAadHttpClient {
     if (client instanceof CustomAadHttpClient) {
       return client;

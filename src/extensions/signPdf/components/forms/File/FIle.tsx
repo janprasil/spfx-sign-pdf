@@ -3,9 +3,12 @@ import React, { useRef, useState } from "react";
 import { FieldDefinition } from "../types";
 import strings from "SignPdfStrings";
 
-type Props = FieldDefinition<{ style?: React.CSSProperties }>;
+type Props = FieldDefinition<{
+  style?: React.CSSProperties;
+  hidePreview?: boolean;
+}>;
 
-const File = ({ field, ...props }: Props) => {
+const File = ({ field, hidePreview = false, ...props }: Props) => {
   const [error, setError] = useState<string | undefined>(undefined);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const handleFileChange = (event: React.FormEvent<HTMLInputElement>) => {
@@ -38,7 +41,7 @@ const File = ({ field, ...props }: Props) => {
         id="fileInput"
         ref={fileInputRef}
       />
-      {field?.value && (
+      {field?.value && !hidePreview && (
         <div className="tw-flex tw-flex-col tw-items-center tw-mb-2">
           <Label>{strings.fileFieldPreviewLabel}</Label>
           <Image

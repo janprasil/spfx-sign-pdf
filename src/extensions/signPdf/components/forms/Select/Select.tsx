@@ -12,9 +12,11 @@ export const Select = ({ field, ...props }: Props) => (
     {...field}
     options={(props.values || []).map(({ value, label }) => ({
       key: `${value}`,
+      id: `${value}`,
       text: label,
     }))}
     defaultValue={props.defaultValue as string}
+    onChange={(e, option) => field?.onChange(option?.key)}
     onBlur={(e) => field?.onBlur()}
   />
 );

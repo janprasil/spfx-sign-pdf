@@ -2,6 +2,7 @@ declare interface ISignPdfStrings {
   Command1: string;
   CommandSignDocumentsTitle: string;
   signatureFormUseForAllLabel: string;
+  signatureFormUseForAllLabelNoPublicKey: string;
   signatureFormImageLabel: string;
   signatureFormReasonLabel: string;
   signatureFormLocationLabel: string;
@@ -9,6 +10,10 @@ declare interface ISignPdfStrings {
   signatureFormAllDocuments: string;
   signatureFormTitle: string;
   signatureFormSelectPosition: string;
+  signatureFormUseAttachmentFromRow: string;
+  signatureFormAttachmentColumnLabel: string;
+  signatureFormAttachmentColumnPlaceholder: string;
+  signatureFormAttachmentColumnMissing: string;
   continueButton: string;
   cancelButton: string;
   signatureSingleTitle: string;
@@ -31,6 +36,22 @@ declare interface ISignPdfStrings {
   validFilesLabel: string;
   signingUnknownError: string;
   fileFieldInvalidSize: string;
+  pickCertificateOrSeparator: string;
+  pickCertificateSkipButton: string;
+  pickCertificateSkipDescription: string;
+  pickCertificateTitle: string;
+  pickCertificateDescription: string;
+  pickCertificateOptionCertificateTitle: string;
+  pickCertificateOptionCertificateDescription: string;
+  pickCertificateOptionTsaTitle: string;
+  pickCertificateOptionTsaDescription: string;
+  pickCertificateBackButton: string;
+  attachmentUploadLabel: string;
+  attachmentOverrideInfo: string;
+  attachmentOptionalInfo: string;
+  attachmentFieldInvalidSize: string;
+  attachmentFieldButtonLabel: string;
+  attachmentFieldSelectedFilePrefix: string;
 }
 
 declare module "SignPdfStrings" {

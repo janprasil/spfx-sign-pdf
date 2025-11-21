@@ -4,6 +4,8 @@ import * as React from "react";
 import InitialScreen from "../InitialScreen/InitialScreen";
 import PickCertificate from "../PickCertificate/PickCertificate";
 
+import { IModalStyles } from "office-ui-fabric-react";
+import Header from "../../components/Header/Header";
 import {
   ScreenEnum,
   useScreenSetup,
@@ -11,21 +13,24 @@ import {
 import Detail from "../Detail/Detail";
 import Progress from "../Progress/Progress";
 import Victory from "../Victory/Victory";
-import Header from "../../components/Header/Header";
-import { IModalStyles } from "office-ui-fabric-react";
-
-const modalStyles: Partial<IModalStyles> = {
-  main: { width: 800 },
-};
+import Onboarding from "../Onboarding/Onboarding";
 
 const SigningModal = () => {
   const screenSetup = useScreenSetup();
+  const modalStyles: Partial<IModalStyles> = {
+    main: {
+      width: screenSetup.detailPanelOpen ? "80vw" : 800,
+      maxWidth: "90vw",
+      transition: "width 0.2s ease",
+    },
+  };
 
   return (
     <Modal
       isOpen
       onDismiss={screenSetup.closeModal}
-      isBlocking={false}
+      isBlocking={true}
+      isClickableOutsideFocusTrap
       containerClassName="ms-signatureModal-container"
       styles={modalStyles}
     >
@@ -35,6 +40,7 @@ const SigningModal = () => {
       </Text>
 
       {screenSetup.screen === ScreenEnum.Init && <InitialScreen />}
+      {screenSetup.screen === ScreenEnum.Onboarding && <Onboarding />}
       {screenSetup.screen === ScreenEnum.Certificate && <PickCertificate />}
       {screenSetup.screen === ScreenEnum.Detail && <Detail />}
       {screenSetup.screen === ScreenEnum.Progress && <Progress />}
